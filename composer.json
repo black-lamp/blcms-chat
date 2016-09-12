@@ -1,0 +1,24 @@
+{
+    "name": "black-lamp/blcms-chat",
+    "description": "Component with basic methods for work with chat for Black Lamp CMS",
+    "keywords": ["yii2", "cms", "blcms", "chat"],
+    "type": "yii2-extension",
+    "license": "GNU Public License",
+    "support": {
+        "source": "https://github.com/black-lamp/blcms-chat"
+    },
+    "require": {
+        "yiisoft/yii2": ">=2.0.4"
+    },
+    "authors": [
+        {
+            "name": "Vladimir Kuprienko",
+            "email": "vldmr.kuprienko@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "bl\\cms\\chat\\": ""
+        }
+    }
+}
