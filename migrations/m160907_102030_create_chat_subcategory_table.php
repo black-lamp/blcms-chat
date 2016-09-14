@@ -5,7 +5,7 @@ use yii\db\Migration;
 /**
  * @author Vladimir Kuprienko <vldmr.kuprienko@gmail.com>
  */
-class m160907_102130_create_chat_subcategory_table extends Migration
+class m160907_102030_create_chat_subcategory_table extends Migration
 {
     public function up()
     {

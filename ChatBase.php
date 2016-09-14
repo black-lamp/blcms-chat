@@ -156,20 +156,26 @@ class ChatBase extends Component
      *      ->sendMessage("Hey :)");
      * ```
      *
-     * @param integer $categoryId Required parameter, chat category id
+     * @param integer|null $categoryId chat category id, if chat has subcategory - this field not required
+     * @param integer|null $subcategoryId chat subcategory id, if chat not has subcategory - thi field not required
      * @param integer $creatorId Required parameter, user id who will creating the chat
      * @return $this
      * @throws DbException
      * @see ChatBase::addUser()
      * @see ChatBase::sendMessage()
      */
-    public function createChat($categoryId, $creatorId) {
+    public function createChat($creatorId, $categoryId = null, $subcategoryId = null) {
         $this->trigger(self::EVENT_BEFORE_CREATE_CHAT);
 
         $this->_userId = $creatorId;
 
         $chat = new Chat();
-        $chat->category_id = $categoryId;
+        if($categoryId != null) {
+            $chat->category_id = $categoryId;
+        }
+        if($subcategoryId != null) {
+            $chat->sub_cat_id = $subcategoryId;
+        }
         $chat->creator_id = $this->_userId;
 
         if($chat->validate() && $chat->save()) {
