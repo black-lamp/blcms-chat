@@ -73,12 +73,23 @@ class ChatBase extends Component
      * Method for the existence check of the chat
      *
      * @param integer $chatId chat id
-     * @return bool - true if chat exist, false if not exists
+     * @return bool `true` if chat exist, `false` if not exists
      */
-    public function isChatExists($chatId) {
+    public static function isChatExists($chatId) {
         $chat = Chat::findOne($chatId);
 
         return ($chat != null) ? true : false;
+    }
+
+    /**
+     * @param integer $chatId
+     * @param integer $userId
+     * @return bool `true` if the chat has the user, `false` if not has
+     */
+    public static function isChatHasUser($chatId, $userId) {
+        $user = ChatUser::findOne(['chat_id' => $chatId, 'user_id' => $userId]);
+
+        return ($user != null) ? true : false;
     }
 
     /**
@@ -87,7 +98,7 @@ class ChatBase extends Component
      * @param integer $chatId chat id
      * @return bool `true` if chat has users, `false` if not has any user
      */
-    public function isChatHasUsers($chatId) {
+    public static function isChatHasUsers($chatId) {
         $users = ChatUser::findAll(['chat_id' => $chatId]);
 
         return ($users != null) ? true : false;
@@ -100,7 +111,7 @@ class ChatBase extends Component
      * @param integer $chatId chat id
      * @return bool `true` if user exists in the chat, `false` if not exists
      */
-    public function isUserExistInChat($userId, $chatId) {
+    public static function isUserExistInChat($userId, $chatId) {
         $chatUser = ChatUser::findOne(['user_id' => $userId, 'chat_id' => $chatId]);
 
         return ($chatUser != null) ? true : false;
@@ -124,7 +135,7 @@ class ChatBase extends Component
      * @see ChatBase::SendMessage()
      */
     public function chat($chatId, $userId = null) {
-        if(!$this->isChatExists($chatId)) {
+        if(!self::isChatExists($chatId)) {
             throw new Exception("Chat is not exists!");
         }
 
@@ -262,7 +273,7 @@ class ChatBase extends Component
     public function addUser($userId = null, $chatId = null) {
         $this->trigger(self::EVENT_BEFORE_ADD_USER);
 
-        if($chatId != null && !$this->isChatExists($chatId)) {
+        if($chatId != null && !self::isChatExists($chatId)) {
             throw new Exception("Chat is not exists!");
         }
         $chat = ($chatId == null) ? $this->_chatId : $chatId;
@@ -274,7 +285,7 @@ class ChatBase extends Component
             $transaction = Yii::$app->getDb()->beginTransaction();
             try {
                 foreach($users as $user) {
-                    if($this->isUserExistInChat($user, $chat)) {
+                    if(self::isUserExistInChat($user, $chat)) {
                         throw new Exception("User exists in this chat!");
                     }
 
@@ -296,7 +307,7 @@ class ChatBase extends Component
         else {
             $user = ($userId == null) ? $this->_userId : $userId;
 
-            if($this->isUserExistInChat($user, $chat)) {
+            if(self::isUserExistInChat($user, $chat)) {
                 throw new Exception("User exists in this chat!");
             }
 
@@ -390,13 +401,13 @@ class ChatBase extends Component
     public function sendMessage($message, $userId = null, $chatId = null) {
         $this->trigger(self::EVENT_BEFORE_SEND_MESSAGE);
 
-        if($chatId != null && !$this->isChatExists($chatId)) {
+        if($chatId != null && !self::isChatExists($chatId)) {
             throw new DbException("Chat is not exists!");
         }
         $chat = ($chatId == null) ? $this->_chatId : $chatId;
         $user = ($userId == null) ? $this->_userId : $userId;
 
-        if(!$this->isChatHasUsers($chat)) {
+        if(!self::isChatHasUsers($chat)) {
             throw new Exception("Chat has not contains users!");
         }
 
