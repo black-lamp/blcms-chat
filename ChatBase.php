@@ -75,7 +75,7 @@ class ChatBase extends Component
      * @param integer $chatId chat id
      * @return bool - true if chat exist, false if not exists
      */
-    protected function isChatExists($chatId) {
+    public function isChatExists($chatId) {
         $chat = Chat::findOne($chatId);
 
         return ($chat != null) ? true : false;
@@ -87,7 +87,7 @@ class ChatBase extends Component
      * @param integer $chatId chat id
      * @return bool `true` if chat has users, `false` if not has any user
      */
-    protected function isChatHasUsers($chatId) {
+    public function isChatHasUsers($chatId) {
         $users = ChatUser::findAll(['chat_id' => $chatId]);
 
         return ($users != null) ? true : false;
@@ -100,7 +100,7 @@ class ChatBase extends Component
      * @param integer $chatId chat id
      * @return bool `true` if user exists in the chat, `false` if not exists
      */
-    protected function isUserExistInChat($userId, $chatId) {
+    public function isUserExistInChat($userId, $chatId) {
         $chatUser = ChatUser::findOne(['user_id' => $userId, 'chat_id' => $chatId]);
 
         return ($chatUser != null) ? true : false;
