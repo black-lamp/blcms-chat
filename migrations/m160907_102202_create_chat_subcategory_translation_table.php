@@ -12,7 +12,8 @@ class m160907_102202_create_chat_subcategory_translation_table extends Migration
         $this->createTable('chat_subcategory_translation', [
             'id' => $this->primaryKey(),
             'sub_cat_id' => $this->integer()->notNull(),
-            'language_id' => $this->integer()->notNull()
+            'language_id' => $this->integer()->notNull(),
+            'title' => $this->string(255)->notNull()
         ]);
 
         $this->addForeignKey('chat_subcategory_translation-chat_subcategory-FK', 'chat_subcategory_translation',
