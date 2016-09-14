@@ -70,6 +70,22 @@ class ChatBase extends Component
     protected $_userId;
 
     /**
+     * @return integer
+     */
+    public function getChatId()
+    {
+        return $this->_chatId;
+    }
+
+    /**
+     * @return integer
+     */
+    public function getUserId()
+    {
+        return $this->_userId;
+    }
+
+    /**
      * Method for the existence check of the chat
      *
      * @param integer $chatId chat id
