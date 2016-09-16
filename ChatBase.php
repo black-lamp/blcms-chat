@@ -134,6 +134,24 @@ class ChatBase extends Component
     }
 
     /**
+     * Method for moderation of the messages
+     *
+     * @param integer $messageId
+     * @return bool
+     */
+    public static function moderateMessage($messageId) {
+        /** @var ChatMessage $message */
+        $message = ChatMessage::findOne($messageId);
+        $message->moderation = true;
+
+        if($message->save(false)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * You must call this method if you want start a work
      * with existing chat.
      *
