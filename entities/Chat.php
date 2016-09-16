@@ -26,11 +26,11 @@ class Chat extends \yii\db\ActiveRecord
     public function behaviors()
     {
         return [
-            [['creator_id'], 'required'],
-            [['category_id', 'sub_cat_id', 'creator_id'], 'integer'],
-            [['date_create', 'date_update'], 'safe'],
-            [['sub_cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => ChatSubcategory::className(), 'targetAttribute' => ['sub_cat_id' => 'id']],
-            [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ChatCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
+            [
+                'class' => TimestampBehavior::className(),
+                'createdAtAttribute' => 'date_create',
+                'updatedAtAttribute' => 'date_update',
+            ],
         ];
     }
 
