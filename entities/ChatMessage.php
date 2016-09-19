@@ -14,6 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $user_id
  * @property string $message
  * @property boolean $moderation
+ * @property boolean $hash
  * @property integer $date_create
  * @property integer $date_update
  *
@@ -42,8 +43,8 @@ class ChatMessage extends \yii\db\ActiveRecord
         return [
             [['chat_id', 'user_id', 'message'], 'required'],
             [['chat_id', 'user_id'], 'integer'],
-            [['message'], 'string'],
-            [['moderation', 'date_create', 'date_update'], 'safe'],
+            [['message', 'hash'], 'string'],
+            [['moderation', 'hash', 'date_create', 'date_update'], 'safe'],
             [['chat_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chat::className(), 'targetAttribute' => ['chat_id' => 'id']],
         ];
     }

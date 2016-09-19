@@ -61,6 +61,11 @@ class ChatBase extends Component
      */
     public $enableMessageModeration = false;
     /**
+     * @var boolean component property, set `true` if you want
+     * add hash string for messages
+     */
+    public $enableHashString = false;
+    /**
      * @var integer chat id
      */
     protected $_chatId;
@@ -451,12 +456,21 @@ class ChatBase extends Component
             $chatMessage->chat_id = $chat;
             $chatMessage->user_id = $user;
             $chatMessage->message = $message;
+
             if($this->enableMessageModeration) {
                 $chatMessage->moderation = false;
             }
 
-            $chatMessage->validate();
-            $chatMessage->save();
+            if($chatMessage->validate() && $chatMessage->save()) {
+                if($this->enableHashString) {
+                    $key = '7e5f277456322b5bdbaa54ec9aafe864c1d42bda';
+                    $data = $chatMessage->id;
+                    $hash = hash_hmac('md5', $data, $key);
+
+                    $chatMessage->hash = $hash;
+                    $chatMessage->save(false);
+                }
+            }
 
             /** @var ChatUser[] $users */
             $users = ChatUser::find()
