@@ -43,7 +43,8 @@ class Chat extends \yii\db\ActiveRecord
     {
         return [
             [['category_id', 'sub_cat_id', 'creator_id', 'date_create', 'date_update'], 'integer'],
-            [['creator_id', 'date_create', 'date_update'], 'required'],
+            [['creator_id'], 'required'],
+            [['date_create', 'date_update'], 'safe'],
             [['sub_cat_id'], 'exist', 'skipOnError' => true, 'targetClass' => ChatSubcategory::className(), 'targetAttribute' => ['sub_cat_id' => 'id']],
             [['category_id'], 'exist', 'skipOnError' => true, 'targetClass' => ChatCategory::className(), 'targetAttribute' => ['category_id' => 'id']],
         ];
