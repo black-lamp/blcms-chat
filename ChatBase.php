@@ -596,7 +596,7 @@ class ChatBase extends Component
      */
     public function removeMessageFromAll($messageId) {
         /** @var ChatMessage $message */
-        $message = ChatMessage::findOne(['message_id' => $messageId]);
+        $message = ChatMessage::findOne($messageId);
         $message->status_id = ChatStatus::STATUS_REMOVED;
         $message->save(false);
 
