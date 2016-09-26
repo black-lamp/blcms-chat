@@ -14,6 +14,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $user_id
  * @property string $message
  * @property boolean $moderation
+ * @property integer $status_id
  * @property boolean $hash
  * @property integer $date_create
  * @property integer $date_update
@@ -42,9 +43,9 @@ class ChatMessage extends \yii\db\ActiveRecord
     {
         return [
             [['chat_id', 'user_id', 'message'], 'required'],
-            [['chat_id', 'user_id'], 'integer'],
+            [['chat_id', 'user_id', 'status_id'], 'integer'],
             [['message', 'hash'], 'string'],
-            [['moderation', 'hash', 'date_create', 'date_update'], 'safe'],
+            [['moderation', 'status_id', 'hash', 'date_create', 'date_update'], 'safe'],
             [['chat_id'], 'exist', 'skipOnError' => true, 'targetClass' => Chat::className(), 'targetAttribute' => ['chat_id' => 'id']],
         ];
     }
@@ -67,5 +68,13 @@ class ChatMessage extends \yii\db\ActiveRecord
     public function getChat()
     {
         return $this->hasOne(Chat::className(), ['id' => 'chat_id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getStatus()
+    {
+        return $this->hasOne(ChatStatus::className(), ['id' => 'status_id']);
     }
 }

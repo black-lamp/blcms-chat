@@ -583,6 +583,27 @@ class ChatBase extends Component
     }
 
     /**
+     * Method for remove the message from all users
+     *
+     * Usage example
+     * ```php
+     * Yii::$app->mainChat
+     *      ->removeMessageFromAll(245);
+     * ```
+     *
+     * @param integer $messageId id of the message
+     * @return $this
+     */
+    public function removeMessageFromAll($messageId) {
+        /** @var ChatMessage $message */
+        $message = ChatMessage::findOne(['message_id' => $messageId]);
+        $message->status_id = ChatStatus::STATUS_REMOVED;
+        $message->save(false);
+
+        return $this;
+    }
+
+    /**
      * Method for editing the message.
      *
      * Usage example
