@@ -16,7 +16,7 @@ use bl\cms\chat\entities\ChatStatus;
 /**
  * This component contains basic methods for work with the chats
  *
- * Install
+ * Installation
  * Add this component to application config
  * ```php
  * 'components' => [
@@ -32,6 +32,9 @@ use bl\cms\chat\entities\ChatStatus;
  *
  * @link https://github.com/black-lamp/blcms-chat
  * @license https://opensource.org/licenses/GPL-3.0 GNU Public License
+ *
+ * @property boolean $enableMessageModeration
+ * @property boolean $enableHashString
  */
 class ChatBase extends Component
 {
@@ -103,6 +106,8 @@ class ChatBase extends Component
     }
 
     /**
+     * Method for the existence check the user in the chat
+     *
      * @param integer $chatId
      * @param integer $userId
      * @return bool `true` if the chat has the user, `false` if not has
